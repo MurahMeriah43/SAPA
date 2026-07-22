@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SAPA — 8 Alat Bantu UMKM Indonesia</title>
+  <meta name="description" content="SAPA (Sahabat Pasar) — pendamping usaha untuk UMKM Indonesia: bikin konten, iklan, hitung harga, catat untung rugi, balas chat, baca tren, cek stok, dan poles foto produk."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#B4502E"/>
+  <link rel="icon" href="assets/icons/icon-32.png">
+  <link rel="icon" href="assets/icons/icon-16.png" sizes="16x16"/>
+  <link rel="apple-touch-icon" href="icons/icon-180.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="SAPA"/>
+</head>
+<body>
+
+  <div id="sapaSplash" class="sapa-splash" aria-hidden="true">
+    <div class="sapa-splash-inner">
+      <span class="sapa-splash-seal">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.8C4 4.7 5.7 3 7.8 3h8.4C18.3 3 20 4.7 20 6.8v5.4c0 2.1-1.7 3.8-3.8 3.8H9.7L5.2 20v-4H4.8C4.4 16 4 15.6 4 15.1V6.8z"/><path d="M8.3 10.3l1.9-2 1.8 1.7 3.2-3.3" stroke-width="1.7"/><circle cx="15.4" cy="6.4" r="0.9" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <p class="sapa-splash-title">SAPA</p>
+      <p class="sapa-splash-sub" id="sapaSplashSub">Menyiapkan pasar...</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       TOP BAR
+  ═══════════════════════════════ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-mark">
+        <span class="brand-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.8C4 4.7 5.7 3 7.8 3h8.4C18.3 3 20 4.7 20 6.8v5.4c0 2.1-1.7 3.8-3.8 3.8H9.7L5.2 20v-4H4.8C4.4 16 4 15.6 4 15.1V6.8z"/><path d="M8.3 10.3l1.9-2 1.8 1.7 3.2-3.3" stroke-width="1.7"/><circle cx="15.4" cy="6.4" r="0.9" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="brand">SAPA</span>
+      </div>
+      <div class="topbar-controls">
+        <div class="font-toggle" id="fontToggle">
+          <button class="font-btn" data-size="small">A-</button>
+          <button class="font-btn active" data-size="medium">A</button>
+          <button class="font-btn" data-size="large">A+</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Ganti tampilan">
+          <span class="ti-light"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+          <span class="ti-dark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg></span>
+        </button>
+        <button class="theme-toggle" id="btnSettings" aria-label="Pengaturan API">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════
+       WELCOME SCREEN
+       Tombol utama menyesuaikan status device ini (auth.js),
+       tapi Masuk sekarang selalu minta Nama Usaha + PIN —
+       bukan cuma PIN — karena satu HP bisa dipakai gantian
+       oleh beberapa usaha. Login dan pemulihan akun jadi satu
+       alur yang sama persis (SapaDB.claim), gak ada dua jalan
+       beda yang ujung-ujungnya ngerjain hal yang sama.
+  ═══════════════════════════════ -->
+  <main class="page auth-page hidden" id="pageWelcome">
+    <div class="register-layout">
+
+      <section class="register-left">
+
+        <span class="register-badge">Pendamping usaha UMKM</span>
+
+        <h1 class="register-title">
+          Selamat Datang
+        </h1>
+
+        <p class="register-desc" id="welcomeSub">
+          Pendamping usaha sederhana untuk membantu kamu mengambil keputusan setiap hari.
+        </p>
+
+        <div class="welcome-actions">
+          <button class="btn-main hidden" id="btnWelcomeDaftar">
+            <span>Daftar Usaha Baru</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="btn-main hidden" id="btnWelcomeMasuk">
+            <span>Masuk</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="auth-switch hidden" id="btnWelcomeSwitchMasuk">Sudah punya profil? Masuk di sini</button>
+          <button class="auth-switch hidden" id="btnWelcomeSwitchDaftar">Usaha baru? Daftar di sini</button>
+        </div>
+
+      </section>
+
+      <section class="register-right">
+        <div class="mini-dashboard" aria-hidden="true">
+          <div class="mini-header">
+            <div class="mini-dot orange"></div>
+            <div class="mini-dot green"></div>
+            <div class="mini-dot blue"></div>
+          </div>
+          <div class="mini-card sales">
+            <span class="mini-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg></span>
+            <span class="mini-card-label">Penjualan Hari Ini</span>
+            <strong>Rp2.450.000</strong>
+            <small>Naik 12% dibanding kemarin</small>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-box stock">
+              <span class="mini-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></span>
+              <strong>18</strong>
+              <small>Produk Aman</small>
+            </div>
+            <div class="mini-box notes">
+              <span class="mini-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
+              <strong>3</strong>
+              <small>Catatan Baru</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       MODAL — MASUK
+       Nama Usaha + PIN, selalu — supaya HP yang dipakai
+       gantian banyak usaha tetap jelas siapa yang masuk.
+       Manggil SapaDB.claim(nama, pin), sama seperti dulu
+       dipakai buat "pulihkan akun", karena memang itu
+       satu-satunya cara login yang benar di skema ini.
+  ═══════════════════════════════ -->
+  <div class="modal-overlay hidden" id="modalMasuk">
+    <div class="modal-card">
+      <button class="modal-close" id="modalMasukClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="modal-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <h3 class="modal-title">Masuk ke Usaha</h3>
+      <p class="modal-body" id="loginGreeting">Masukkan nama usaha dan PIN kamu.</p>
+
+      <div class="form-card auth-form">
+        <div class="field-group">
+          <label class="field-label">Nama Usaha</label>
+          <input id="lNama" class="field-input" type="text" placeholder="contoh: Warung Bu Rina">
+        </div>
+        <div class="field-group">
+          <label class="field-label">PIN 4 Angka</label>
+          <div class="pin-input-wrap">
+            <input type="password" id="lPin" class="field-input" placeholder="••••" inputmode="numeric" maxlength="4"/>
+            <span class="pin-lock-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+          </div>
+          <label class="pin-toggle"><input type="checkbox" data-pin-toggle="lPin"> Tampilkan PIN</label>
+        </div>
+        <button class="btn-main" id="btnLogin">
+          <span>Masuk</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <button class="auth-switch" id="linkKeDaftarDariMasuk">Usaha baru? Daftar di sini</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       MODAL — DAFTAR USAHA BARU
+  ═══════════════════════════════ -->
+  <div class="modal-overlay hidden" id="modalDaftar">
+    <div class="modal-card">
+      <button class="modal-close" id="modalDaftarClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="modal-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l2-6h14l2 6"/><path d="M3 9a2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2"/><path d="M4 11v8a1 1 0 001 1h14a1 1 0 001-1v-8"/></svg></div>
+      <h3 class="modal-title">Daftar Usaha Baru</h3>
+      <p class="modal-body">Buat profil usaha kamu, cuma butuh waktu dua menit.</p>
+
+      <div class="form-card auth-form">
+        <div class="field-group">
+          <label class="field-label">Nama Usaha</label>
+          <input id="dNama" class="field-input" type="text" placeholder="contoh: Warung Bu Rina">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Buat PIN 4 Angka</label>
+          <div class="pin-input-wrap">
+            <input id="dPin" class="field-input" type="password" maxlength="4" inputmode="numeric" placeholder="••••">
+            <span class="pin-lock-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Konfirmasi PIN</label>
+          <div class="pin-input-wrap">
+            <input id="dPinConfirm" class="field-input" type="password" maxlength="4" inputmode="numeric" placeholder="••••">
+            <span class="pin-lock-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+          </div>
+          <label class="pin-toggle"><input type="checkbox" data-pin-toggle="dPin,dPinConfirm"> Tampilkan PIN</label>
+          <span class="field-hint">PIN dipakai untuk melindungi data usahamu. Ingat baik-baik, ya — nama usaha dan PIN ini yang dipakai buat masuk lagi nanti, di HP mana pun.</span>
+        </div>
+        <button id="btnDaftar" class="btn-main">
+          <span>Mulai Pakai SAPA</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <button class="auth-switch" id="linkKeLoginDariDaftar">Sudah punya profil? Masuk di sini</button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       MODAL — KONFIRMASI (generik)
+       Menggantikan window.confirm(). Dipanggil lewat UI.dialog.confirm().
+  ═══════════════════════════════ -->
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-card">
+      <div class="modal-icon" id="confirmIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+      <h3 class="modal-title" id="confirmTitle">Yakin?</h3>
+      <p class="modal-body" id="confirmMessage"></p>
+      <div class="confirm-actions">
+        <button class="btn-outline" id="confirmCancel">Batal</button>
+        <button class="btn-main" id="confirmOk">Ya, lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       HALAMAN MENU (dashboard)
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="pageMenu">
+    <div class="wrap wrap-wide">
+
+      <!-- Sapaan personal (ringan, bukan login) -->
+      <div class="greeting-row">
+        <div class="greeting-with-avatar">
+          <span class="avatar-badge" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l2-6h14l2 6"/><path d="M3 9a2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2"/><path d="M4 11v8a1 1 0 001 1h14a1 1 0 001-1v-8"/><path d="M9.5 21v-6h5v6"/></svg>
+          </span>
+          <div>
+            <h1 class="menu-title" id="greetingLabel">Halo</h1>
+            <p class="greeting-sub" id="greetingName">Pilih pekerjaan yang ingin diselesaikan.</p>
+          </div>
+        </div>
+        <button class="btn-rename" id="btnLogout" title="Keluar">Keluar</button>
+      </div>
+
+      <!-- Kartu hero — tip harian, warna penuh -->
+      <div class="hero-tip-card">
+        <span class="hero-tip-decor" aria-hidden="true"></span>
+        <span class="hero-tip-label">Tips hari ini</span>
+        <p class="hero-tip-text" id="heroTipText">Foto produk yang cerah bisa naikin minat pembeli sampai 2x lipat — coba modul Poles Foto.</p>
+      </div>
+
+      <!-- Panduan singkat -->
+      <div class="guide-box" id="guideBox">
+        <button class="guide-toggle" id="guideToggle">
+          <span class="guide-toggle-left">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg>
+            <span>Cara pakai SAPA</span>
+          </span>
+          <svg class="guide-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="guide-body hidden" id="guideBody">
+          <div class="guide-step">
+            <span class="guide-step-num">1</span>
+            <span>Pilih salah satu kartu alat di bawah sesuai yang kamu butuh sekarang</span>
+          </div>
+          <div class="guide-step">
+            <span class="guide-step-num">2</span>
+            <span>Isi kolom yang ada — boleh ketik atau pencet tombol mic buat ngomong langsung</span>
+          </div>
+          <div class="guide-step">
+            <span class="guide-step-num">3</span>
+            <span>Tekan tombol besar di bawah form, tunggu sebentar, hasilnya langsung muncul</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat strip — kesan dashboard -->
+      <div class="stat-strip">
+        <div class="stat-box">
+          <span class="stat-num mono">8</span>
+          <span class="stat-lbl">Alat Tersedia</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num mono">100%</span>
+          <span class="stat-lbl">Gratis Dipakai</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num mono" id="statTransaksi">0</span>
+          <span class="stat-lbl">Dicatat Hari Ini</span>
+        </div>
+      </div>
+
+      <div class="menu-grid">
+        <button class="menu-card" data-open="konten" data-accent="blue">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </span>
+          <span class="menu-name">Bikin Konten Jualan</span>
+          <span class="menu-desc">Dapat ide caption & foto buat posting hari ini</span>
+        </button>
+
+        <button class="menu-card" data-open="iklan" data-accent="violet">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 11-5.8-1.6"/></svg>
+          </span>
+          <span class="menu-name">Bantuan Iklan Digital</span>
+          <span class="menu-desc">Baru mau coba boost/iklan? Dibimbing dari nol</span>
+        </button>
+
+        <button class="menu-card" data-open="harga" data-accent="amber">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.5 1.3 2 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"/></svg>
+          </span>
+          <span class="menu-name">Hitung Harga Jual</span>
+          <span class="menu-desc">Biar untung tetap dapat, gak asal banting harga</span>
+        </button>
+
+        <button class="menu-card" data-open="catat" data-accent="teal">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </span>
+          <span class="menu-name">Catat Untung Rugi</span>
+          <span class="menu-desc">Ngomong atau ketik aja, langsung jadi catatan rapi</span>
+        </button>
+
+        <button class="menu-card" data-open="balasan" data-accent="rose">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </span>
+          <span class="menu-name">Balas Chat Pelanggan</span>
+          <span class="menu-desc">Bikinkan balasan sopan buat pertanyaan pembeli</span>
+        </button>
+
+        <button class="menu-card" data-open="tren" data-accent="green">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
+          </span>
+          <span class="menu-name">Baca Tren Usaha</span>
+          <span class="menu-desc">Cari tahu kenapa jualan naik atau turun</span>
+        </button>
+
+        <button class="menu-card" data-open="stok" data-accent="orange">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg>
+          </span>
+          <span class="menu-name">Cek Stok Aman</span>
+          <span class="menu-desc">Biar tahu kapan harus belanja bahan lagi</span>
+        </button>
+
+        <button class="menu-card" data-open="foto" data-accent="indigo">
+          <span class="menu-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+          </span>
+          <span class="menu-name">Poles Foto Produk</span>
+          <span class="menu-desc">Bikin foto lebih cerah, rapi, siap upload — gratis, tanpa AI berbayar</span>
+        </button>
+      </div>
+
+      <p class="api-status connected" id="apiStatus">Semua alat siap dipakai.</p>
+    </div>
+  </main>
+
+
+  <!-- ═══════════════════════════════
+       PANEL 1: KONTEN
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-konten" data-accent="blue">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+        <h2 class="tool-title">Bikin Konten Jualan</h2>
+        <button class="btn-help" data-guide="konten"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Isi info produkmu, nanti keluar 3 ide konten siap posting.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Nama Produk <span class="req">wajib diisi</span></label>
+          <input type="text" id="kNama" class="field-input" placeholder="contoh: Keripik Singkong Pedas Manis"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ceritakan produkmu</label>
+          <div class="textarea-wrap">
+            <textarea id="kDesc" class="field-input field-textarea" rows="3" placeholder="contoh: renyah, gurih pedas, dibuat dari singkong pilihan"></textarea>
+            <button type="button" class="btn-mic" data-target="kDesc" title="Rekam suara"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></button>
+          </div>
+          <p class="mic-hint">Males ngetik? Pencet tombol mic, lalu ngomong aja.</p>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Harga Jual</label>
+          <input type="text" id="kHarga" class="field-input" placeholder="contoh: Rp 15.000"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Kondisi jualan minggu ini</label>
+          <div class="custom-select" id="kTren" data-value="naik">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Lagi laris / naik</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="naik">Lagi laris / naik</button>
+            <button type="button" class="cs-option" data-value="stabil">Biasa aja / stabil</button>
+            <button type="button" class="cs-option" data-value="turun">Lagi sepi</button>
+            <button type="button" class="cs-option" data-value="baru">Produk baru</button>
+          </div>
+        </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Mau posting ke mana?</label>
+          <div class="custom-select" id="kPlatform" data-value="instagram">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Instagram</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="instagram">Instagram</button>
+            <button type="button" class="cs-option" data-value="whatsapp">WhatsApp</button>
+            <button type="button" class="cs-option" data-value="tiktok">TikTok</button>
+            <button type="button" class="cs-option" data-value="tokopedia">Tokopedia</button>
+          </div>
+        </div>
+        </div>
+        <button class="btn-main" id="btnKonten">Buat 3 Ide Konten</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadKonten">
+        <div class="spinner"></div>
+        <p>Sedang mikirin ide konten...</p>
+      </div>
+
+      <div class="result-box hidden" id="resKonten">
+        <div class="result-top">
+          <h3>Ini 3 Ide Kontenmu</h3>
+          <button class="btn-ulang" id="btnRegenKonten"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Coba Lagi</span></button>
+        </div>
+        <div id="konsepList"></div>
+
+        <div class="jadwal-box">
+          <p class="jadwal-title">Bingung posting yang mana dulu?</p>
+          <button class="btn-outline" id="btnJadwal">Buatkan Jadwal 7 Hari</button>
+        </div>
+        <div class="loading-box hidden" id="loadJadwal">
+          <div class="spinner"></div>
+          <p>Menyusun jadwal...</p>
+        </div>
+        <div id="jadwalList"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 2: HARGA
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-harga" data-accent="amber">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.5 1.3 2 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"/></svg></span>
+        <h2 class="tool-title">Hitung Harga Jual</h2>
+        <button class="btn-help" data-guide="harga"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Masukkan modal dan untung yang kamu mau, biar gak asal pasang harga.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Modal per Satuan <span class="req">wajib diisi</span></label>
+          <input type="text" id="hModal" class="field-input" placeholder="contoh: 8000" inputmode="numeric"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Mau Untung Berapa Persen?</label>
+          <input type="text" id="hMargin" class="field-input" placeholder="contoh: 40" inputmode="numeric"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Jual Lewat Mana?</label>
+          <div class="custom-select" id="hPlatform" data-value="langsung">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Langsung / Chat WA (tanpa potongan)</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="langsung">Langsung / Chat WA (tanpa potongan)</button>
+            <button type="button" class="cs-option" data-value="marketplace">Marketplace (potongan ±6%)</button>
+            <button type="button" class="cs-option" data-value="reseller">Pakai Reseller (potongan ±17%)</button>
+          </div>
+        </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nama Produk <span class="opsional">opsional, buat saran tambahan</span></label>
+          <input type="text" id="hNama" class="field-input" placeholder="contoh: Keripik Singkong Pedas Manis"/>
+        </div>
+        <button class="btn-main" id="btnHarga">Hitung Sekarang</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadHarga">
+        <div class="spinner"></div>
+        <p>Menghitung...</p>
+      </div>
+
+      <div class="result-box hidden" id="resHarga">
+        <div class="harga-card" id="hargaOutput"></div>
+        <div class="insight-box hidden" id="hargaInsight"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 3: CATAT UNTUNG RUGI
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-catat" data-accent="teal">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
+        <h2 class="tool-title">Catat Untung Rugi</h2>
+        <button class="btn-help" data-guide="catat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Ceritakan transaksinya pakai bahasa sehari-hari, biar dirapikan otomatis.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Ceritakan transaksinya <span class="req">wajib diisi</span></label>
+          <div class="textarea-wrap">
+            <textarea id="cInput" class="field-input field-textarea" rows="4" placeholder="contoh: tadi jual 10 bungkus keripik masing-masing 15rb, beli minyak goreng 30rb, bayar plastik kemasan 12rb"></textarea>
+            <button type="button" class="btn-mic" data-target="cInput" title="Rekam suara"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></button>
+          </div>
+          <p class="mic-hint">Boleh ngomong aja pakai tombol mic, gak perlu rapi.</p>
+        </div>
+        <button class="btn-main" id="btnCatat">Catat & Rapikan</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadCatat">
+        <div class="spinner"></div>
+        <p>Merapikan catatan...</p>
+      </div>
+
+      <div class="result-box hidden" id="resCatat">
+        <div class="catat-card" id="catatOutput"></div>
+      </div>
+
+      <div class="riwayat-box hidden" id="riwayatBox">
+        <h3>Riwayat Hari Ini</h3>
+        <div id="riwayatList"></div>
+        <div class="ringkasan-strip" id="ringkasanStrip"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 4: BALASAN CHAT
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-balasan" data-accent="rose">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></span>
+        <h2 class="tool-title">Balas Chat Pelanggan</h2>
+        <button class="btn-help" data-guide="balasan"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Tempel pertanyaan pembeli, nanti dibuatkan balasan siap kirim.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Pesan dari Pembeli <span class="req">wajib diisi</span></label>
+          <div class="textarea-wrap">
+            <textarea id="bPesan" class="field-input field-textarea" rows="3" placeholder="contoh: kak masih ada stok gak? bisa kirim luar kota? ongkirnya berapa?"></textarea>
+            <button type="button" class="btn-mic" data-target="bPesan" title="Rekam suara"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Info Toko <span class="opsional">opsional</span></label>
+          <input type="text" id="bInfo" class="field-input" placeholder="contoh: bisa COD Bandung, ongkir mulai 10rb"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Gayanya Mau Gimana?</label>
+          <div class="custom-select" id="bNada" data-value="ramah">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Ramah & Santai</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="ramah">Ramah & Santai</button>
+            <button type="button" class="cs-option" data-value="formal">Formal & Sopan</button>
+            <button type="button" class="cs-option" data-value="singkat">Singkat & Langsung</button>
+          </div>
+        </div>
+        </div>
+        <button class="btn-main" id="btnBalasan">Buatkan Balasan</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadBalasan">
+        <div class="spinner"></div>
+        <p>Menyusun balasan...</p>
+      </div>
+
+      <div class="result-box hidden" id="resBalasan">
+        <div class="result-top">
+          <h3>Balasan Siap Kirim</h3>
+          <button class="btn-ulang" id="btnRegenBalasan"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Coba Lagi</span></button>
+        </div>
+        <div class="chat-mock">
+          <div class="chat-bubble chat-bubble-in" id="balasanPesanEcho"></div>
+          <div class="chat-bubble chat-bubble-out" id="balasanOutput"></div>
+        </div>
+        <button class="btn-main" id="btnCopyBalasan">Salin Balasan</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 5: TREN USAHA
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-tren" data-accent="green">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg></span>
+        <h2 class="tool-title">Baca Tren Usaha</h2>
+        <button class="btn-help" data-guide="tren"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Jawab 3 pertanyaan simpel, biar tahu apa yang perlu dilakukan minggu ini.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Produk apa yang paling laku minggu ini? <span class="req">wajib diisi</span></label>
+          <input type="text" id="tProduk" class="field-input" placeholder="contoh: Keripik Singkong Pedas Manis"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Dibanding minggu lalu, jualannya gimana?</label>
+          <div class="custom-select" id="tArah" data-value="naik">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Naik / Lebih laris</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="naik">Naik / Lebih laris</button>
+            <button type="button" class="cs-option" data-value="sama">Sama Aja</button>
+            <button type="button" class="cs-option" data-value="turun">Turun / Lebih Sepi</button>
+          </div>
+        </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Kira-kira kenapa? <span class="opsional">opsional</span></label>
+          <input type="text" id="tAlasan" class="field-input" placeholder="contoh: abis promo di IG, atau lagi musim hujan jadi sepi"/>
+        </div>
+        <button class="btn-main" id="btnTren">Baca Tren Sekarang</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadTren">
+        <div class="spinner"></div>
+        <p>Membaca tren usaha...</p>
+      </div>
+
+      <div class="result-box hidden" id="resTren">
+        <div class="signal-card" id="signalCard">
+          <div class="signal-arrow" id="signalArrow"></div>
+          <div class="signal-text">
+            <p class="signal-label" id="signalLabel">Tren Minggu Ini</p>
+          </div>
+        </div>
+        <div class="reply-card" id="trenOutput"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 6: EKSPOR BAHASA
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-foto" data-accent="indigo">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></span>
+        <h2 class="tool-title">Poles Foto Produk</h2>
+        <button class="btn-help" data-guide="foto"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Pilih mode dasar untuk mencerahkan & merapikan foto, atau mode AI Studio untuk ganti background dan tambah properti pakai AI — keduanya gratis dan langsung bisa dipakai.</p>
+
+      <div class="mode-toggle-row">
+        <button type="button" class="mode-toggle-btn active" id="btnModeDasar" data-mode="dasar">
+          <span class="mode-toggle-title">Mode Dasar</span>
+          <span class="mode-toggle-desc">Cerahin & rapiin, selalu gratis</span>
+        </button>
+        <button type="button" class="mode-toggle-btn" id="btnModeAI" data-mode="ai">
+          <span class="mode-toggle-title">Mode AI Studio</span>
+          <span class="mode-toggle-desc">Ganti background jadi studio</span>
+        </button>
+      </div>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Pilih Foto Produk <span class="req">wajib diisi</span></label>
+          <label class="photo-drop" id="photoDropZone" for="fotoInput">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+            <span id="photoDropText">Ketuk buat pilih foto dari HP</span>
+          </label>
+          <input type="file" id="fotoInput" accept="image/*" class="visually-hidden"/>
+        </div>
+
+        <!-- Opsi khusus Mode Dasar -->
+        <div class="field-group hidden" id="gayaFotoGroup">
+          <label class="field-label">Mau Gaya yang Mana?</label>
+          <div class="pill-row" id="pillGayaFoto">
+            <button type="button" class="pill active" data-val="cerah">Cerah &amp; Segar</button>
+            <button type="button" class="pill" data-val="hangat">Hangat &amp; Natural</button>
+            <button type="button" class="pill" data-val="kontras">Kontras Tinggi</button>
+          </div>
+        </div>
+
+        <!-- Opsi khusus Mode AI -->
+        <div class="field-group hidden" id="gayaAIGroup">
+          <label class="field-label">Contoh Cepat <span class="opsional">ketuk buat isi otomatis, boleh diedit</span></label>
+          <div class="pill-row" id="pillGayaAI">
+            <button type="button" class="pill" data-val="studio putih bersih profesional, pencahayaan lembut merata, tanpa bayangan keras">Studio Putih Bersih</button>
+            <button type="button" class="pill" data-val="meja kayu natural dengan sedikit dedaunan hijau sebagai properti pendukung, nuansa hangat">Meja Kayu Natural</button>
+            <button type="button" class="pill" data-val="marmer putih elegan dengan pencahayaan dramatis ala produk premium">Marmer Elegan</button>
+          </div>
+        </div>
+        <div class="field-group hidden" id="instruksiAIGroup">
+          <label class="field-label">Mau Latar & Gaya Seperti Apa? <span class="req">wajib diisi</span></label>
+          <textarea id="instruksiAI" class="field-input field-textarea" rows="3" placeholder="contoh: latar putih bersih ala studio profesional, tambahkan daun pisang di sebelah produk, pencahayaan lembut"></textarea>
+          <p class="field-hint-note">Tulis sedetail mungkin biar hasilnya makin sesuai — sebutkan warna latar, properti tambahan, dan suasana yang kamu mau.</p>
+        </div>
+
+        <button class="btn-main hidden" id="btnPolesFoto">Poles Foto Sekarang</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadFoto">
+        <div class="spinner"></div>
+        <p id="loadFotoMsg">Memoles foto...</p>
+      </div>
+
+      <!-- Hasil Mode Dasar: sebelum/sesudah -->
+      <div class="result-box hidden" id="resFotoDasar">
+        <div class="result-top">
+          <h3>Sebelum &amp; Sesudah</h3>
+          <button class="btn-ulang" id="btnRegenFoto"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Coba Gaya Lain</span></button>
+        </div>
+        <div class="compare-panels">
+          <div class="compare-col">
+            <span class="compare-label">Sebelum</span>
+            <div class="photo-preview-box"><img id="fotoAsli" alt="Foto asli sebelum dipoles"/></div>
+          </div>
+          <div class="compare-arrow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="compare-col">
+            <span class="compare-label">Sesudah</span>
+            <div class="photo-preview-box photo-preview-accent"><img id="fotoHasil" alt="Foto sesudah dipoles"/></div>
+          </div>
+        </div>
+        <button class="btn-main" id="btnUnduhFoto">Unduh Foto Hasil</button>
+        <canvas id="fotoCanvas" class="visually-hidden"></canvas>
+      </div>
+
+      <!-- Hasil Mode AI: galeri beberapa pilihan -->
+      <div class="result-box hidden" id="resFotoAI">
+        <div class="result-top">
+          <h3>Pilih Hasil yang Kamu Suka</h3>
+          <button class="btn-ulang" id="btnRegenFotoAI"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Racik Ulang</span></button>
+        </div>
+        <div class="foto-gallery" id="fotoGalleryGrid"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 7: IKLAN DIGITAL
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-iklan" data-accent="violet">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 11-5.8-1.6"/></svg></span>
+        <h2 class="tool-title">Bantuan Iklan Digital</h2>
+        <button class="btn-help" data-guide="iklan"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Belum pernah coba boost/iklan? Ini dibikinin dari nol, tinggal ikutin.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Nama Produk <span class="req">wajib diisi</span></label>
+          <input type="text" id="iNama" class="field-input" placeholder="contoh: Keripik Singkong Pedas Manis"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ceritakan produkmu</label>
+          <div class="textarea-wrap">
+            <textarea id="iDesc" class="field-input field-textarea" rows="3" placeholder="contoh: renyah, gurih pedas, harga terjangkau"></textarea>
+            <button type="button" class="btn-mic" data-target="iDesc" title="Rekam suara"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Budget Iklan yang Kamu Punya</label>
+          <div class="custom-select" id="iBudget" data-value="kecil">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Kecil (di bawah Rp 50.000/hari)</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="kecil">Kecil (di bawah Rp 50.000/hari)</button>
+            <button type="button" class="cs-option" data-value="sedang">Sedang (Rp 50.000 - 150.000/hari)</button>
+            <button type="button" class="cs-option" data-value="besar">Lumayan (di atas Rp 150.000/hari)</button>
+          </div>
+        </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Mau Iklan di Mana?</label>
+          <div class="custom-select" id="iPlatform" data-value="instagram">
+          <button type="button" class="cs-trigger">
+            <span class="cs-value">Instagram / Facebook</span>
+            <svg class="cs-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cs-menu">
+            <button type="button" class="cs-option active" data-value="instagram">Instagram / Facebook</button>
+            <button type="button" class="cs-option" data-value="tiktok">TikTok</button>
+            <button type="button" class="cs-option" data-value="whatsapp">WhatsApp Broadcast</button>
+          </div>
+        </div>
+        </div>
+        <button class="btn-main" id="btnIklan">Bikinkan Panduan Iklan</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadIklan">
+        <div class="spinner"></div>
+        <p>Menyusun panduan iklan...</p>
+      </div>
+
+      <div class="result-box hidden" id="resIklan">
+        <div class="reply-card" id="iklanOutput"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════
+       PANEL 8: CEK STOK AMAN
+  ═══════════════════════════════ -->
+  <main class="page hidden" id="page-stok" data-accent="orange">
+    <div class="wrap">
+      <button class="back-btn" data-back><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Kembali ke Menu</span></button>
+      <div class="tool-header">
+        <span class="tool-icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg></span>
+        <h2 class="tool-title">Cek Stok Aman</h2>
+        <button class="btn-help" data-guide="stok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></button>
+      </div>
+      <p class="tool-sub">Biar tahu kira-kira kapan harus belanja bahan lagi, gak sampai kehabisan mendadak.</p>
+
+      <div class="form-card">
+        <div class="field-group">
+          <label class="field-label">Bahan/Produk Apa yang Mau Dicek <span class="req">wajib diisi</span></label>
+          <input type="text" id="sBahan" class="field-input" placeholder="contoh: Singkong mentah"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Sisa Stok Sekarang</label>
+          <input type="text" id="sSisa" class="field-input" placeholder="contoh: 20 kg" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Dalam sehari biasanya habis berapa?</label>
+          <input type="text" id="sPakai" class="field-input" placeholder="contoh: 4 kg per hari"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Kalau pesan hari ini, biasanya barang datang dalam berapa hari?</label>
+          <input type="text" id="sWaktu" class="field-input" placeholder="contoh: 2 hari"/>
+        </div>
+        <button class="btn-main" id="btnStok">Cek Sekarang</button>
+      </div>
+
+      <div class="loading-box hidden" id="loadStok">
+        <div class="spinner"></div>
+        <p>Menghitung...</p>
+      </div>
+
+      <div class="result-box hidden" id="resStok">
+        <div class="harga-card" id="stokOutput"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal panduan per-modul -->
+  <div class="modal-overlay hidden" id="guideModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div class="modal-icon" id="modalIcon"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-body" id="modalBody"></p>
+    </div>
+  </div>
+
+  <!-- Modal Pengaturan -->
+  <div class="modal-overlay hidden" id="settingsModal">
+    <div class="modal-card modal-card-wide">
+      <button class="modal-close" id="settingsClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <h3 class="modal-title">Pengaturan</h3>
+      <p class="modal-body">Atur profil usaha kamu di sini. Semua tersimpan otomatis di HP ini.</p>
+
+      <div class="settings-section settings-section-first">
+        <div class="settings-section-head">
+          <span class="settings-section-name">Profil Usaha</span>
+        </div>
+        <p class="settings-desc">Nama ini muncul di sapaan tiap kali buka SAPA.</p>
+        <div class="settings-field-stack">
+          <input type="text" id="inputNamaUsaha" class="field-input" placeholder="Nama usaha kamu"/>
+          <button class="btn-main settings-save-btn" id="btnSaveProfil">Simpan</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-head">
+          <span class="settings-section-name">Alat Bantu Teks <span class="settings-tag settings-tag-free">Aktif</span></span>
+          <span class="settings-status connected">Tersambung</span>
+        </div>
+        <p class="settings-desc">Dipakai untuk 7 alat berbasis teks (konten, iklan, harga, catat, balasan, tren, stok). Sudah aktif otomatis, tidak perlu pengaturan tambahan.</p>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-head">
+          <span class="settings-section-name">Poles Foto — Mode Studio <span class="settings-tag settings-tag-freemium">Aktif</span></span>
+          <span class="settings-status connected">Tersambung</span>
+        </div>
+        <p class="settings-desc">Dipakai untuk mode Studio di Poles Foto Produk (ganti background, tambah properti). Sudah aktif otomatis, tidak perlu pengaturan tambahan.</p>
+      </div>
+
+      <div class="settings-upgrade-note">
+        SAPA sepenuhnya gratis. Tidak ada biaya apapun untuk menggunakan semua fitur yang tersedia.
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner kalau AI lagi limit — tampilan khusus, bukan sekadar toast -->
+  <div class="cooldown-banner hidden" id="cooldownBanner">
+    <div class="cooldown-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <div class="cooldown-text">
+      <p class="cooldown-title" id="cooldownTitle">AI-nya lagi penuh dipakai orang lain</p>
+      <p class="cooldown-sub" id="cooldownSub">Ini wajar buat layanan gratis pas lagi ramai. Sabar sebentar ya, lanjut otomatis.</p>
+    </div>
+    <div class="cooldown-count" id="cooldownCount">30</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script type="module" src="assets/js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="assets/js/motion.js"></script>
+</body>
+</html>
