@@ -248,6 +248,8 @@ document.getElementById("btnLogout").addEventListener("click", async () => {
 
 async function masukKeDashboard() {
 
+    console.count("masukKeDashboard");
+
     document.getElementById("greetingLabel").textContent =
         `Halo, ${State.currentProfile.nama}`;
 
@@ -284,7 +286,7 @@ async function masukKeDashboard() {
 
     Dashboard.renderRiwayat();
 
-    SapaDB.subscribeTransaksi(
+    await SapaDB.subscribeTransaksi(
         State.currentProfile.id,
         (row) => {
 

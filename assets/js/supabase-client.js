@@ -171,17 +171,47 @@ const SapaDB = (() => {
     return data;
   }
 
-  function subscribeTransaksi(profileId, onInsert) {
-    _requireInit();
-    return client
-      .channel("transaksi-" + profileId)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "transaksi", filter: `profile_id=eq.${profileId}` },
-        (payload) => onInsert(payload.new)
-      )
-      .subscribe();
+  let transaksiChannel = null;
+let transaksiChannelBusy = null; // guard biar panggilan bertumpuk gak saling nyalip
+async function subscribeTransaksi(profileId, onInsert) {
+  _requireInit();
+
+  // Kalau lagi ada proses subscribe/unsubscribe berjalan, tunggu itu kelar dulu
+  if (transaksiChannelBusy) {
+      await transaksiChannelBusy.catch(() => {});
   }
+
+  const task = (async () => {
+      // Hapus channel lama SAMPAI BENERAN kelar (baru boleh bikin channel baru dgn nama sama)
+      if (transaksiChannel) {
+          await client.removeChannel(transaksiChannel);
+          transaksiChannel = null;
+      }
+
+      transaksiChannel = client
+          .channel("transaksi-" + profileId)
+          .on(
+              "postgres_changes",
+              {
+                  event: "INSERT",
+                  schema: "public",
+                  table: "transaksi",
+                  filter: `profile_id=eq.${profileId}`
+              },
+              (payload) => onInsert(payload.new)
+          )
+          .subscribe();
+
+      return transaksiChannel;
+  })();
+
+  transaksiChannelBusy = task;
+  try {
+      return await task;
+  } finally {
+      if (transaksiChannelBusy === task) transaksiChannelBusy = null;
+  }
+}
 
   function _requireInit() {
     if (!client || !session) {
