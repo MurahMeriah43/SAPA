@@ -149,10 +149,11 @@ export const AI = {
             }
 
             return (choice.message?.content || "")
-                .replace(/<think>[\s\S]*?<\/think>/gi, "")
-                .replace(/\r/g, "")
-                .replace(/\u200B/g, "")
-                .trim();
+            .replace(/<think>[\s\S]*?<\/think>/gi, "")
+            .replace(/\r/g, "")
+            .replace(/\u200B/g, "")
+            .replace(/[\u3400-\u9FFF\u3040-\u30FF\uAC00-\uD7AF]/g, "")
+            .trim();
         }
 
         throw new Error("AI gagal memberikan jawaban.");

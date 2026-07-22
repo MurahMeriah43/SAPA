@@ -63,12 +63,6 @@
 
   <!-- ═══════════════════════════════
        WELCOME SCREEN
-       Tombol utama menyesuaikan status device ini (auth.js),
-       tapi Masuk sekarang selalu minta Nama Usaha + PIN —
-       bukan cuma PIN — karena satu HP bisa dipakai gantian
-       oleh beberapa usaha. Login dan pemulihan akun jadi satu
-       alur yang sama persis (SapaDB.claim), gak ada dua jalan
-       beda yang ujung-ujungnya ngerjain hal yang sama.
   ═══════════════════════════════ -->
   <main class="page auth-page hidden" id="pageWelcome">
     <div class="register-layout">
@@ -133,11 +127,6 @@
 
   <!-- ═══════════════════════════════
        MODAL — MASUK
-       Nama Usaha + PIN, selalu — supaya HP yang dipakai
-       gantian banyak usaha tetap jelas siapa yang masuk.
-       Manggil SapaDB.claim(nama, pin), sama seperti dulu
-       dipakai buat "pulihkan akun", karena memang itu
-       satu-satunya cara login yang benar di skema ini.
   ═══════════════════════════════ -->
   <div class="modal-overlay hidden" id="modalMasuk">
     <div class="modal-card">
@@ -213,7 +202,6 @@
 
   <!-- ═══════════════════════════════
        MODAL — KONFIRMASI (generik)
-       Menggantikan window.confirm(). Dipanggil lewat UI.dialog.confirm().
   ═══════════════════════════════ -->
   <div class="modal-overlay hidden" id="confirmModal">
     <div class="modal-card">
