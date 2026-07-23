@@ -12,12 +12,7 @@ export const AppState = {
         currentPage: "register",
         loading: false
     },
-    profile: {
-        id: null,
-        name: "",
-        pin: "",
-        createdAt: null
-    },
+    profile: null,
     ui: {
         theme: "light",
         accent: "violet",

@@ -150,12 +150,20 @@ function initSettings() {
   const greeting = document.getElementById("greetingLabel");
 
   btnSettings?.addEventListener("click", () => {
-    inputNama.value = State.currentProfile
-      ? State.currentProfile.nama
-      : "";
+  const sudahLogin = !!State.currentProfile;
 
-    modal.classList.remove("hidden");
-  });
+  inputNama.value = sudahLogin ? State.currentProfile.nama : "";
+  inputNama.disabled = !sudahLogin;
+  inputNama.placeholder = sudahLogin
+    ? ""
+    : "Masuk atau daftar dulu buat atur nama usaha";
+
+  if (btnSave) {
+    btnSave.disabled = !sudahLogin;
+  }
+
+  modal.classList.remove("hidden");
+});
 
   btnClose?.addEventListener("click", () => {
     modal.classList.add("hidden");
