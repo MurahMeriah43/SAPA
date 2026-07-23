@@ -35,7 +35,6 @@ async function initAuth() {
                 // usaha ini) — bukan berarti otomatis login. Login tetap
                 // wajib ketik ulang nama + PIN, karena HP yang sama bisa
                 // gantian dipakai usaha lain.
-                State.currentProfile = profile;
 
                 showWelcomeFor(profile);
 
@@ -234,12 +233,18 @@ document.getElementById("btnLogout").addEventListener("click", async () => {
 
     if (!mauKeluar) return;
 
-    const namaTerakhir = State.currentProfile?.nama || "";
+    const profileLama = State.currentProfile;
+    const namaTerakhir = profileLama?.nama || "";
+
+    // Reset state biar app beneran nganggep 'belum login',
+    // bukan cuma pindah tampilan doang.
+    State.currentProfile = null;
+    State.transaksi = [];
 
     document.getElementById("lPin").value = "";
     document.getElementById("lNama").value = namaTerakhir;
 
-    showWelcomeFor(State.currentProfile);
+    showWelcomeFor(profileLama);
     UI.modal.open("modalMasuk");
 
 });
